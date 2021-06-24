@@ -26,7 +26,10 @@ app.get('/', function (req, res) {
             inArr.push(element.textContent);
         });
 
-        console.log(inArr.toString());
+        let linkedinProfileUrl = xpath.select("string(//h3[normalize-space()='Your Profile']/following::a[1])", doc);
+        let website = xpath.select("string(//h3[normalize-space()='Website']/following::a[1])", doc);
+        let phone = xpath.select("string(//h3[normalize-space()='Phone']/following::span[1])", doc);
+        let email = xpath.select("string(//h3[normalize-space()='Email']/following::a[1])", doc);
 
         let workExperience = [];
         let elementListOfExperience = dom.window.document
@@ -121,10 +124,10 @@ app.get('/', function (req, res) {
             company: xpath.select("string(//h2[normalize-space()='Experience']/following::p[2])", doc).trim(),
             about: xpath.select("string(//h2[normalize-space()='About']/following::div[1])", doc).trim(),
             contactInformation: {
-                linkedinProfileUrl: xpath.select("string(//h3[normalize-space()='Your Profile']/following::a[1])", doc),
-                website: xpath.select("string(//h3[normalize-space()='Website']/following::a[1])", doc),
-                phone: xpath.select("string(//h3[normalize-space()='Phone']/following::span[1])", doc),
-                email: xpath.select("string(//h3[normalize-space()='Email']/following::a[1])", doc)
+                linkedinProfileUrl: linkedinProfileUrl === "" ? null : linkedinProfileUrl,
+                website: website === "" ? null : website,
+                phone: phone === "" ? null : phone,
+                email: email === "" ? null : email
             },
             birthday: xpath.select("string(//h3[normalize-space()='Birthday']/following::span[1])", doc),
             workedCompanies: workExperience.length === 0 ? null : workExperience,
