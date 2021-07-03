@@ -8,7 +8,11 @@ provider:
   region: us-east-1
 
 functions:
-  app:
+  login:
     handler: index.handler
     events:
-      - http: ANY /
+      - http: 'GET /login'
+  parse:
+    handler: index.handler
+    events:
+      - http: 'GET /parse'
